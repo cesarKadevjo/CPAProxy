@@ -57,16 +57,17 @@ else
 fi
 
 # Versions
-export MIN_IOS_VERSION="8.0"
-export MIN_OSX_VERSION="10.10"
+if [ "$PLATFORM_TARGET" == "iOSMac" ]; then
+  export MIN_OSX_VERSION="10.15"
+  export MIN_IOS_VERSION="13.0"
+else
+  export MIN_IOS_VERSION="8.0"
+  export MIN_OSX_VERSION="10.10"
+fi
 export MACOS_SDK_VERSION="10.15"
 export OPENSSL_VERSION="1.0.2o"
 export LIBEVENT_VERSION="2.0.22-stable"
 export TOR_VERSION="0.3.0.13"
-
-if [ "$PLATFORM_TARGET" == "iOSMac" ]; then
-  MIN_OSX_VERSION="10.15"
-fi
 
 BUILT_ARCHS=()
 DEVELOPER=`xcode-select --print-path`
@@ -109,8 +110,13 @@ do
 	   	export PLATFORM_VERSION_MIN="-miphoneos-version-min=${MIN_IOS_VERSION}"
   	else
   		PLATFORM="MacOSX"
-        PLATFORM_SDK="macosx${SDK}"
-	    export PLATFORM_VERSION_MIN="-mmacosx-version-min=${MIN_OSX_VERSION}"
+      PLATFORM_SDK="macosx${SDK}"
+      # Fix build when cross-compiling for UIKit for Mac
+      if [ "${PLATFORM_TARGET}" == "iOSMac" ] ; then
+        export PLATFORM_VERSION_MIN="-miphoneos-version-min=${MIN_IOS_VERSION}"
+      else
+        export PLATFORM_VERSION_MIN="-mmacosx-version-min=${MIN_OSX_VERSION}"
+      fi
   	fi
     
     ROOTDIR="${BUILD_DIR}/${PLATFORM}-${SDK}-${ARCH}"

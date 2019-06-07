@@ -16,9 +16,16 @@ pushd "tor-${TOR_VERSION}"
 	patch -p3 < "${TOPDIR}/patches/tor-nsenviron.diff"
 	patch -p3 < "${TOPDIR}/patches/tor-ptrace.diff"
 
-	LDFLAGS="-L${ARCH_BUILT_DIR} -fPIE ${PLATFORM_VERSION_MIN}"
-	CFLAGS="-arch ${ARCH} -fPIE -isysroot ${SDK_PATH} -I${ARCH_BUILT_HEADERS_DIR} ${PLATFORM_VERSION_MIN}"
-	CPPFLAGS="-arch ${ARCH} -fPIE -isysroot ${SDK_PATH} -I${ARCH_BUILT_HEADERS_DIR} ${PLATFORM_VERSION_MIN}"
+      # Fix build when cross-compiling for UIKit for Mac
+   if [ "${PLATFORM_TARGET}" == "iOSMac" ] ; then
+      LDFLAGS="-L${ARCH_BUILT_DIR} -fPIE -target x86_64-apple-ios-macabi ${PLATFORM_VERSION_MIN}"
+      CFLAGS=" -arch ${ARCH} -fPIE -isysroot ${SDK_PATH} -I${ARCH_BUILT_HEADERS_DIR} -target x86_64-apple-ios-macabi ${PLATFORM_VERSION_MIN}"
+      CPPFLAGS=" -arch ${ARCH} -fPIE -isysroot ${SDK_PATH} -I${ARCH_BUILT_HEADERS_DIR} -target x86_64-apple-ios-macabi ${PLATFORM_VERSION_MIN}"
+   else
+      LDFLAGS="-L${ARCH_BUILT_DIR} -fPIE ${PLATFORM_VERSION_MIN}"
+      CFLAGS=" -arch ${ARCH} -fPIE -isysroot ${SDK_PATH} -I${ARCH_BUILT_HEADERS_DIR} ${PLATFORM_VERSION_MIN}"
+      CPPFLAGS=" -arch ${ARCH} -fPIE -isysroot ${SDK_PATH} -I${ARCH_BUILT_HEADERS_DIR} ${PLATFORM_VERSION_MIN}"
+   fi
 
 	if [ "${ARCH}" == "i386" ] || [ "${ARCH}" == "x86_64" ]; then
 		EXTRA_CONFIG="--host=${ARCH}-apple-darwin"

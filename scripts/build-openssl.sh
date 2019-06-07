@@ -37,15 +37,16 @@ pushd "openssl-${OPENSSL_VERSION}"
 
 	# Fix build when cross-compiling for UIKit for Mac
 	if [ "${PLATFORM_TARGET}" == "iOSMac" ] ; then
-		export CC="${CLANG} -arch ${ARCH} -fPIE"
+		export CC="${CLANG} -arch ${ARCH} -fPIE ${PLATFORM_VERSION_MIN}"
 	fi
 
-	./Configure ${EXTRA_CONFIG} no-shared --openssldir=${ROOTDIR}
+	./Configure ${EXTRA_CONFIG} no-shared --openssldir=${ROOTDIR} 
 
 	# Fix build when cross-compiling for iOS simulator
 	if [ "${ARCH}" == "i386" ] || [ "${ARCH}" == "x86_64" ]; then
 		sed -ie "s!^CFLAG=!CFLAG=-isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} !" "Makefile"
-	elif [ "${PLATFORM_TARGET}" == "iOSMac" ] ; then 
+	fi
+	if [ "${PLATFORM_TARGET}" == "iOSMac" ] ; then 
 		sed -ie "s!^CFLAG=!CFLAG=-isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} -target x86_64-apple-ios-macabi !" "Makefile"
 	fi
 
