@@ -5,7 +5,7 @@
 # ARCHS : i386 x86_64 armv7 arm64
 # LIBRARIES: openssl libevent tor
 # USE_BUILD_LOG: true false
-# PLATFORM_TARGET: iOS macOS
+# PLATFORM_TARGET: iOS macOS iOSMac
 
 
 set -e
@@ -19,8 +19,9 @@ echo "Using platform target: $PLATFORM_TARGET."
 SDK=$1
 if [ "${SDK}" == "" ]
 then
-  SDK_PREFIX="iphoneos"
-  if [ "$PLATFORM_TARGET" == "macOS" ]; then
+  if [ "$PLATFORM_TARGET" == "iOS" ]; then
+    SDK_PREFIX="iphoneos"
+  else
     SDK_PREFIX="macosx"
   fi
   AVAIL_SDKS=`xcodebuild -showsdks | grep "$SDK_PREFIX"`
@@ -38,8 +39,10 @@ fi
 if [ -n "${ARCHS}" ]; then
   echo "Building user-defined architectures: ${ARCHS}"
 else
-	if [ "$PLATFORM_TARGET" == "iOS" ]; then
+  if [ "$PLATFORM_TARGET" == "iOS" ]; then
   	ARCHS="i386 x86_64 armv7 arm64"
+  elif [ "$PLATFORM_TARGET" == "iOSMac" ]; then
+    ARCHS="x86_64"
   else
   	ARCHS="i386 x86_64"
   fi
@@ -56,9 +59,14 @@ fi
 # Versions
 export MIN_IOS_VERSION="8.0"
 export MIN_OSX_VERSION="10.10"
+export MACOS_SDK_VERSION="10.15"
 export OPENSSL_VERSION="1.0.2o"
 export LIBEVENT_VERSION="2.0.22-stable"
 export TOR_VERSION="0.3.0.13"
+
+if [ "$PLATFORM_TARGET" == "iOSMac" ]; then
+  MIN_OSX_VERSION="10.15"
+fi
 
 BUILT_ARCHS=()
 DEVELOPER=`xcode-select --print-path`
@@ -81,7 +89,7 @@ if [ ! -d "${FINAL_BUILT_DIR}" ]; then
   mkdir -p "${FINAL_BUILT_DIR}"
 else
   echo "Final product directory CPAProxyDependencies-${PLATFORM_TARGET} found, skipping build..."
-  exit 0
+# exit 0
 fi
 
 cd ${BUILD_DIR}
@@ -91,7 +99,7 @@ do
   for LIBRARY in ${LIBRARIES}
   do
   	if [ "$PLATFORM_TARGET" == "iOS" ]; then
-			if [ "${ARCH}" == "i386" ] || [ "${ARCH}" == "x86_64" ]; then
+        if [ "${ARCH}" == "i386" ] || [ "${ARCH}" == "x86_64" ]; then
 	        PLATFORM="iPhoneSimulator"
 	        PLATFORM_SDK="iphonesimulator${SDK}"
 	    else
@@ -101,7 +109,7 @@ do
 	   	export PLATFORM_VERSION_MIN="-miphoneos-version-min=${MIN_IOS_VERSION}"
   	else
   		PLATFORM="MacOSX"
-	    PLATFORM_SDK="macosx${SDK}"
+        PLATFORM_SDK="macosx${SDK}"
 	    export PLATFORM_VERSION_MIN="-mmacosx-version-min=${MIN_OSX_VERSION}"
   	fi
     
