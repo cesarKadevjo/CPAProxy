@@ -4,9 +4,9 @@ Pod::Spec.new do |s|
   s.summary         = "CPAProxy is a thin Objective-C wrapper around Tor."
   s.author          = "Claudiu-Vlad Ursache <claudiu.vlad.ursache@gmail.com>"
 
-  s.homepage        = "https://github.com/ursachec/CPAProxy"
+  s.homepage        = "https://github.com/cesarKadevjo/CPAProxy"
   s.license         = { :type => 'MIT', :file => 'LICENSE.md' }
-  s.source          = { :git => "https://github.com/ursachec/CPAProxy.git", :branch => "master"}
+  s.source          = { :git => "https://github.com/cesarKadevjo/CPAProxy.git", :branch => "master"}
   s.prepare_command = <<-CMD
     export PLATFORM_TARGET="iOS"
     bash ./scripts/build-all.sh

@@ -29,6 +29,12 @@ DEPENDENCIES:
   - CPAProxy (from `../../CPAProxy.podspec`)
   - ProxyKit (~> 1.1.0)
 
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - CocoaAsyncSocket
+    - CocoaLumberjack
+    - ProxyKit
+
 EXTERNAL SOURCES:
   CPAProxy:
     :path: "../../CPAProxy.podspec"
@@ -36,9 +42,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   CocoaAsyncSocket: e0a7e93b2ffa411592ff87e58524fbbc9b95b4fa
   CocoaLumberjack: aa9dcab71bdf9eaf2a63bbd9ddc87863efe45457
-  CPAProxy: 0b9903e278c7f1ecbe6f9a5bdc5d916e9a84222d
+  CPAProxy: 1a3d749a455784b1d6a59a6d0025abd96e00b286
   ProxyKit: 1f35adc913debc7ca6748c02487361dabaaea532
 
 PODFILE CHECKSUM: 978d91aff2a47d7c1f93ea85110b0454f92842f2
 
-COCOAPODS: 1.2.0.rc.1
+COCOAPODS: 1.8.1

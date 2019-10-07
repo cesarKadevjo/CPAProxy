@@ -16,7 +16,7 @@ pushd "tor-${TOR_VERSION}"
 	CFLAGS="-arch ${ARCH} -fPIE -isysroot ${SDK_PATH} -I${ARCH_BUILT_HEADERS_DIR} ${PLATFORM_VERSION_MIN}"
 	CPPFLAGS="-arch ${ARCH} -fPIE -isysroot ${SDK_PATH} -I${ARCH_BUILT_HEADERS_DIR} ${PLATFORM_VERSION_MIN}"
 
-	if [ "${ARCH}" == "i386" ] || [ "${ARCH}" == "x86_64" ]; then
+	if [ "${ARCH}" == "x86_64" ]; then
 		EXTRA_CONFIG="--host=${ARCH}-apple-darwin"
     else
         EXTRA_CONFIG="--host=arm-apple-darwin"
