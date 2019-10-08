@@ -1,7 +1,5 @@
 PODS:
-  - CocoaAsyncSocket (7.5.1):
-    - CocoaAsyncSocket/GCD (= 7.5.1)
-  - CocoaAsyncSocket/GCD (7.5.1)
+  - CocoaAsyncSocket (7.6.3)
   - CocoaLumberjack (2.4.0):
     - CocoaLumberjack/Default (= 2.4.0)
     - CocoaLumberjack/Extensions (= 2.4.0)
@@ -40,11 +38,11 @@ EXTERNAL SOURCES:
     :path: "../../CPAProxy.podspec"
 
 SPEC CHECKSUMS:
-  CocoaAsyncSocket: e0a7e93b2ffa411592ff87e58524fbbc9b95b4fa
+  CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
   CocoaLumberjack: aa9dcab71bdf9eaf2a63bbd9ddc87863efe45457
-  CPAProxy: 1a3d749a455784b1d6a59a6d0025abd96e00b286
+  CPAProxy: e7fd6ae4fc562c27fd09609855bc4db43c1619c9
   ProxyKit: 1f35adc913debc7ca6748c02487361dabaaea532
 
-PODFILE CHECKSUM: 978d91aff2a47d7c1f93ea85110b0454f92842f2
+PODFILE CHECKSUM: 70e137a2487014ff1e812add402079b6609ab674
 
 COCOAPODS: 1.8.1
